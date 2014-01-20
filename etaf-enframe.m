@@ -1,4 +1,4 @@
-function out = enframe(y, frameSize, overlap)
+function out = etaf-enframe(y, frameSize, overlap)
 % enframe: Perform frame blocking on given signals
 %
 %	Usage:

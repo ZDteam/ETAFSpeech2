@@ -1,12 +1,19 @@
-function ccc = mfcc(x,fs,shortEnergy)
+function ccc = mfcc(x,fs)
 
 [nf,frameSize] = size(x);
-
-% 归一化mel滤波器组系数
 filter_num = 24; %三角滤波器个数
 coef_num = 16; %阶数
+cc = zero(nf,coef_num);
+for i=1:nf
+    cc(i) = melcepst(x(i,:),fs);
+end
+
+
+
+% 归一化mel滤波器组系数
+
 % bank=melbankm(filter_num,frameSize,fs,0,0.5,'m');
-bank=melbankm(filter_num,frameSize,fs,0,0.5,'tz');
+bank=melbankm(filter_num,frameSize,fs);
 % bank=full(bank);
 % bank=bank/max(bank(:));
 % 

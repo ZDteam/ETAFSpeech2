@@ -3,7 +3,7 @@ if nargin == 4
     plot_opt = false;
 end
 
-y = remove_zero(y);   
+
 
 %Ô¤¼ÓÖØ
 y=filter([1 -0.9375],1,y);

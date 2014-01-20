@@ -1,4 +1,4 @@
-function  [feature_mat,thresholds] = train(train_set)
+function  [feature_mat] = train(train_set,TEST_FS,ETAF_DEBUG,ETAF_RMZERO)
 
 files = dir(train_set);
 [n,~] = size(files);
@@ -10,9 +10,19 @@ feature_mat = cell(n,1);
 for i =1:n
     waveFile = [train_set,num2str(i),'.wav'];
     [y,fs,nbits] = wavread(waveFile);
-%             fprintf('fs = %d nbits=%d\n',fs,nbits);
-    [x,zcr,shortEnergy] = pre_process(waveFile,y,fs,nbits);
-    feature_mat{i}= feature_extract(x,fs,zcr,shortEnergy);
+    if(ETAF_DEBUG)
+        fprintf('fs = %d nbits=%d\n',fs,nbits);
+    end
+    if(fs ~= TEST_FS)
+        y = resample(y,TEST_FS,fs);
+        fs = TEST_FS;
+    end
+%     [x,zcr,shortEnergy] = pre_process(waveFile,y,fs,nbits);
+    if(ETAF_RMZERO)
+        y=remove_zero(y);
+    end
+    
+    feature_mat{i}= feature_extract_2(y,fs);
     
 end
 % fprintf('======================== trained successfully ============\n');
